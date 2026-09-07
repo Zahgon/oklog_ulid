@@ -1,0 +1,119 @@
+{
+  "_comment": [
+    "Behavioural differential fixtures for the Migration QC harness.",
+    "",
+    "The harness reads this file from the SOURCE repository root only, so this",
+    "copy is documentation of the contract, not an input the harness trusts.",
+    "Place an identical file at the root of the Go checkout before running QC.",
+    "",
+    "Each case is executed against the Go binary (cmd/ulid) and the Rust binary",
+    "(src/bin/ulid.rs), with stdout and stderr merged, and compared after noise",
+    "normalisation. The CLI writes parse results and usage to stderr, which is",
+    "why the merged stream is the thing under comparison.",
+    "",
+    "Cases whose output is a fresh random ULID cannot be diffed and declare",
+    "\"compare\": \"exit\" so they are judged on exit status alone."
+  ],
+
+  "cases": [
+    {
+      "name": "help",
+      "args": ["-h"]
+    },
+    {
+      "name": "help-long",
+      "args": ["--help"]
+    },
+    {
+      "name": "parse-default-format",
+      "args": ["-f", "default", "01ARYZ6S410000000000000000"]
+    },
+    {
+      "name": "parse-rfc3339",
+      "args": ["-f", "rfc3339", "01ARYZ6S410000000000000000"]
+    },
+    {
+      "name": "parse-unix",
+      "args": ["-f", "unix", "01ARYZ6S410000000000000000"]
+    },
+    {
+      "name": "parse-ms",
+      "args": ["-f", "ms", "01ARYZ6S410000000000000000"]
+    },
+    {
+      "name": "parse-equals-flag-form",
+      "args": ["--format=ms", "01ARYZ6S410000000000000000"]
+    },
+    {
+      "name": "parse-format-case-insensitive",
+      "args": ["-f", "RFC3339", "01ARYZ6S410000000000000000"]
+    },
+    {
+      "name": "parse-local-unix",
+      "args": ["-l", "-f", "unix", "01ARYZ6S410000000000000000"]
+    },
+    {
+      "name": "parse-zero-ulid",
+      "args": ["-f", "ms", "00000000000000000000000000"]
+    },
+    {
+      "name": "parse-max-ulid",
+      "args": ["-f", "ms", "7ZZZZZZZZZZZZZZZZZZZZZZZZZ"]
+    },
+    {
+      "name": "parse-multiple-parameters",
+      "args": [
+        "-f",
+        "unix",
+        "01ARYZ6S410000000000000000",
+        "00000000000000000000000000"
+      ]
+    },
+
+    {
+      "name": "err-bad-data-size",
+      "args": ["not-a-ulid"]
+    },
+    {
+      "name": "err-overflow",
+      "args": ["ZZZZZZZZZZZZZZZZZZZZZZZZZZ"]
+    },
+    {
+      "name": "err-invalid-characters",
+      "args": ["0000000000000000000000000u"]
+    },
+    {
+      "name": "err-invalid-format",
+      "args": ["-f", "nope", "01ARYZ6S410000000000000000"]
+    },
+    {
+      "name": "err-missing-format-value",
+      "args": ["-f"]
+    },
+    {
+      "name": "err-unknown-flag",
+      "args": ["-x"]
+    },
+
+    {
+      "name": "generate-default",
+      "args": [],
+      "compare": "exit"
+    },
+    {
+      "name": "generate-quick",
+      "args": ["-q"],
+      "compare": "exit"
+    },
+    {
+      "name": "generate-zero-entropy",
+      "args": ["-z"],
+      "compare": "exit"
+    },
+    {
+      "name": "generate-combined-short-flags",
+      "args": ["-zq"],
+      "compare": "exit"
+    }
+  ]
+}

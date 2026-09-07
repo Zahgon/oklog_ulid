@@ -1,0 +1,18 @@
+[package]
+name = "ulid"
+version = "2.1.0"
+edition = "2021"
+rust-version = "1.70"
+description = "Universally Unique Lexicographically Sortable Identifier — a 1:1 Rust port of github.com/oklog/ulid/v2"
+license = "Apache-2.0"
+
+[lib]
+name = "ulid"
+path = "src/lib.rs"
+
+[[bin]]
+name = "ulid"
+path = "src/bin/ulid.rs"
+
+[profile.test]
+opt-level = 2

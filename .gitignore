@@ -1,29 +1,29 @@
-#### joe made this: http://goel.io/joe
+#####=== Rust ===#####
 
-#####=== Go ===#####
+# Cargo build artefacts. These must never be committed: `target/` bakes
+# absolute paths into the test binaries (`CARGO_BIN_EXE_ulid`), so a committed
+# copy makes `cargo test` fail on every machine except the one that wrote it.
+/target/
+**/*.rs.bk
 
-# Compiled Object files, Static and Dynamic libs (Shared Objects)
-*.o
-*.a
-*.so
+# Coverage output
+/coverage/
+*.profraw
+*.profdata
+lcov.info
 
-# Folders
-_obj
-_test
+#####=== OS ===#####
+.DS_Store
+Thumbs.db
 
-# Architecture specific extensions/prefixes
-*.[568vq]
-[568vq].out
+#####=== Migration deliverables ===#####
 
-*.cgo1.go
-*.cgo2.c
-_cgo_defun.c
-_cgo_gotypes.go
-_cgo_export.*
-
-_testmain.go
-
-*.exe
-*.test
-*.prof
-
+# These describe the migration rather than perform it, and ship alongside the
+# repository rather than inside it. truth.md cites the migration commit by SHA,
+# which cannot exist until after that commit is made — so they are kept out of
+# the tree deliberately, not by oversight.
+/truth.md
+/instructions.md
+/golden.patch
+/fix.patch
+/test.patch
